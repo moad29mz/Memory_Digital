@@ -22,4 +22,15 @@ Route::middleware(['auth'])->group(function () {
     })->name('profile.edit');
 });
 
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['ar', 'fr', 'en'])) {
+        session(['locale' => $locale]);
+    }
+    return redirect()->back();
+})->name('lang.switch');
+
+Route::get('/memories/{memory}/history', [MemoryController::class, 'history'])->name('memories.history');
+
+Route::get('/statistics', [MemoryController::class, 'statistics'])->name('statistics');
+
 require __DIR__.'/auth.php';

@@ -36,6 +36,19 @@
             background: #2e7d32;
             color: white;
         }
+        .preview-container {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .preview-image {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 10px;
+        }
+        .preview-video {
+            max-width: 100%;
+            max-height: 200px;
+        }
     </style>
 </head>
 <body>
@@ -47,7 +60,7 @@
                         <h3><i class="fas fa-plus-circle"></i> إضافة ذكرى جديدة</h3>
                     </div>
                     <div class="card-body p-4">
-                        <form action="{{ route('memories.store') }}" method="POST">
+                        <form action="{{ route('memories.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             
                             <div class="mb-3">
@@ -58,6 +71,13 @@
                             <div class="mb-3">
                                 <label class="form-label fw-bold">وصف الذكرى</label>
                                 <textarea name="description" class="form-control" rows="5"></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">مرفق (صورة / فيديو / أغنية)</label>
+                                <input type="file" name="media" class="form-control" id="mediaInput" accept="image/*,video/*,audio/*">
+                                <small class="text-muted">الملفات المسموحة: JPG, PNG, GIF, MP4, MP3, WAV (الحد الأقصى 20MB)</small>
+                                <div class="preview-container" id="previewContainer"></div>
                             </div>
                             
                             <div class="mb-3">
@@ -101,12 +121,42 @@
     </div>
     
     <script>
+        // اختيار الحالة النفسية
         document.querySelectorAll('.emotion-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.emotion-btn').forEach(b => b.classList.remove('selected'));
                 this.classList.add('selected');
                 document.getElementById('emotion').value = this.dataset.emotion;
             });
+        });
+        
+        // معاينة الملف قبل الرفع
+        document.getElementById('mediaInput').addEventListener('change', function(e) {
+            const container = document.getElementById('previewContainer');
+            container.innerHTML = '';
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const fileType = file.type;
+            const url = URL.createObjectURL(file);
+            
+            if (fileType.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.src = url;
+                img.classList.add('preview-image');
+                container.appendChild(img);
+            } else if (fileType.startsWith('video/')) {
+                const video = document.createElement('video');
+                video.src = url;
+                video.controls = true;
+                video.classList.add('preview-video');
+                container.appendChild(video);
+            } else if (fileType.startsWith('audio/')) {
+                const audio = document.createElement('audio');
+                audio.src = url;
+                audio.controls = true;
+                container.appendChild(audio);
+            }
         });
     </script>
 </body>

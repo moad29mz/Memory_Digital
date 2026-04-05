@@ -64,6 +64,11 @@
             background: #0f3460;
             color: white;
         }
+        .dark-mode .search-bar input {
+            background: #0f3460;
+            color: white;
+            border-color: #2e7d32;
+        }
     </style>
 </head>
 <body>
@@ -78,12 +83,12 @@
                 </button>
                 <div class="dropdown d-inline">
                     <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-language"></i> {{ __('lang') }}
+                        <i class="fas fa-language"></i> اللغة
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/lang/ar">العربية</a></li>
-                        <li><a class="dropdown-item" href="/lang/fr">Français</a></li>
-                        <li><a class="dropdown-item" href="/lang/en">English</a></li>
+                        <li><a class="dropdown-item" href="{{ route('lang.switch', 'ar') }}">العربية</a></li>
+                        <li><a class="dropdown-item" href="{{ route('lang.switch', 'fr') }}">Français</a></li>
+                        <li><a class="dropdown-item" href="{{ route('lang.switch', 'en') }}">English</a></li>
                     </ul>
                 </div>
                 <a href="{{ route('logout') }}" class="btn btn-danger ms-2"
@@ -114,13 +119,13 @@
             <form action="{{ route('memories.search') }}" method="POST">
                 @csrf
                 <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <input type="text" name="search" class="form-control" placeholder="بحث بالعنوان...">
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <input type="date" name="date" class="form-control">
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <button type="submit" class="btn btn-primary w-100">بحث</button>
                     </div>
                 </div>
@@ -153,6 +158,19 @@
                             </div>
                             <h5 class="card-title">{{ $memory->title }}</h5>
                             <p class="card-text">{{ Str::limit($memory->description, 100) }}</p>
+                            
+                            @if($memory->media_path)
+                                <div class="mt-2 text-center">
+                                    @if($memory->media_type == 'image')
+                                        <img src="{{ asset('storage/' . $memory->media_path) }}" class="img-fluid rounded" style="max-height: 150px;">
+                                    @elseif($memory->media_type == 'video')
+                                        <video src="{{ asset('storage/' . $memory->media_path) }}" class="img-fluid rounded" style="max-height: 150px;" controls></video>
+                                    @elseif($memory->media_type == 'audio')
+                                        <audio src="{{ asset('storage/' . $memory->media_path) }}" controls class="w-100"></audio>
+                                    @endif
+                                </div>
+                            @endif
+                            
                             <small class="text-muted">
                                 <i class="far fa-calendar-alt"></i> 
                                 {{ \Carbon\Carbon::parse($memory->created_at)->format('Y-m-d H:i') }}
@@ -161,6 +179,9 @@
                         <div class="card-footer bg-transparent">
                             <a href="{{ route('memories.edit', $memory->id) }}" class="btn btn-sm btn-warning">
                                 <i class="fas fa-edit"></i> تعديل
+                            </a>
+                            <a href="{{ route('memories.history', $memory->id) }}" class="btn btn-sm btn-info">
+                                <i class="fas fa-history"></i> التاريخ
                             </a>
                             <form action="{{ route('memories.destroy', $memory->id) }}" method="POST" class="d-inline">
                                 @csrf

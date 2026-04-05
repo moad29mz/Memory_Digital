@@ -10,7 +10,7 @@ class Memory extends Model
 {
     protected $fillable = [
         'user_id', 'title', 'description', 'media_path', 
-        'media_type', 'emotion'
+        'media_type', 'media_name', 'emotion'
     ];
 
     public function user(): BelongsTo

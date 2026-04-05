@@ -15,6 +15,9 @@
                     <x-nav-link :href="route('memories.index')" :active="request()->routeIs('memories.*')">
                         {{ __('My Memories') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('statistics')" :active="request()->routeIs('statistics')">
+    <i class="fas fa-chart-line"></i> {{ __('Statistics') }}
+</x-nav-link>
                 </div>
             </div>
 
