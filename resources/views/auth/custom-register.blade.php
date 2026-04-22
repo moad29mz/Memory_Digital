@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Memory Digital') }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Memory Digital</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -65,7 +64,7 @@
         }
 
         .brand-side h1 {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 700;
             color: white;
             margin-bottom: 15px;
@@ -279,6 +278,7 @@
         <div class="brand-side">
             <div class="logo-circle">
                 <i class="fas fa-brain"></i>
+                <h1>Memory Digital</h1>
             </div>
             
         </div>
@@ -286,7 +286,7 @@
         <div class="form-side">
             <div class="form-header">
                 <h2>Create Account</h2>
-                <p>Already a member? <a href="{{ route('login') }}">Sign In</a></p>
+                <p>Already a member? <a href="{{ route('home') }}">Sign In</a></p>
             </div>
 
             @if($errors->any())
@@ -297,7 +297,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('register') }}">
+            <form action="{{ route('custom.register') }}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label>Full Name</label>

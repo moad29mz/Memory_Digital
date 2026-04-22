@@ -1,47 +1,338 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ config('app.name', 'Memory Digital') }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0f0f1a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        .login-container {
+            display: flex;
+            max-width: 1000px;
+            width: 100%;
+            margin: 20px;
+            background: #1a1a2e;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .brand-side {
+            flex: 1;
+            background: linear-gradient(135deg, #0f0f1a, #1a1a2e);
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo-circle {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(244,67,54,0.3);
+        }
+
+        .logo-circle i {
+            font-size: 50px;
+            color: white;
+        }
+
+        .brand-side h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .brand-side p {
+            color: #8e9aaf;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .laravel-badge {
+            margin-top: 30px;
+            display: inline-block;
+            background: rgba(244,67,54,0.2);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 12px;
+            color: #f44336;
+            border: 1px solid rgba(244,67,54,0.3);
+        }
+
+        .form-side {
+            flex: 1;
+            padding: 60px 50px;
+            background: #1a1a2e;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .form-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #8e9aaf;
+            font-size: 14px;
+        }
+
+        .form-header a {
+            color: #f44336;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: white;
+            font-size: 14px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8e9aaf;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 15px 14px 45px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: #0f0f1a;
+            color: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #f44336;
+            box-shadow: 0 0 0 3px rgba(244,67,54,0.2);
+        }
+
+        .form-control::placeholder {
+            color: #5a6a7a;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(244,67,54,0.4);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .divider span {
+            background: #1a1a2e;
+            padding: 0 15px;
+            position: relative;
+            color: #8e9aaf;
+            font-size: 13px;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .social-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0f0f1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .social-btn:hover {
+            transform: scale(1.05);
+            border-color: #f44336;
+        }
+
+        .social-btn i {
+            font-size: 18px;
+        }
+
+        .error-message {
+            color: #f44336;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .alert-danger {
+            background: rgba(244,67,54,0.1);
+            border: 1px solid rgba(244,67,54,0.3);
+            border-radius: 12px;
+            color: #f44336;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                margin: 10px;
+            }
+            
+            .brand-side {
+                padding: 40px 30px;
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            
+            .form-side {
+                padding: 40px 30px;
+            }
+            
+            .logo-circle {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .logo-circle i {
+                font-size: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="brand-side">
+            <div class="logo-circle">
+                <i class="fas fa-brain"></i>
+            </div>
+           
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        <div class="form-side">
+            <div class="form-header">
+                <h2>Welcome Back!</h2>
+                <p>Don't have an account? <a href="{{ route('register') }}">Sign Up</a></p>
+            </div>
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
+            @if($errors->any())
+                <div class="alert-danger">
+                    @foreach($errors->all() as $error)
+                        <p class="error-message">{{ $error }}</p>
+                    @endforeach
+                </div>
             @endif
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" name="email" class="form-control" placeholder="Enter your email" value="{{ old('email') }}" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="remember" id="remember">
+                            <label class="form-check-label text-white" for="remember">
+                                Remember me
+                            </label>
+                        </div>
+                        <a href="{{ route('password.request') }}" style="color: #f44336; text-decoration: none; font-size: 14px;">Forgot password?</a>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+            </form>
+
         </div>
-    </form>
-</x-guest-layout>
+    </div>
+</body>
+</html>

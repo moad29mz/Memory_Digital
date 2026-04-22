@@ -37,7 +37,7 @@
         }
 
         .logo {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
             margin-bottom: 40px;
             display: flex;
@@ -99,7 +99,10 @@
 
         /* Sidebar Bottom */
         .sidebar-bottom {
-            margin-top: 50px;
+            position: absolute;
+            bottom: 30px;
+            left: 20px;
+            right: 20px;
             border-top: 1px solid #e8edf2;
             padding-top: 20px;
         }
@@ -114,8 +117,6 @@
             text-decoration: none;
             transition: all 0.2s;
             font-weight: 500;
-            margin-bottom: 5px;
-            cursor: pointer;
         }
 
         .sidebar-bottom a:hover {
@@ -347,10 +348,6 @@
             .stats-section {
                 grid-template-columns: 1fr;
             }
-            
-            .menu-toggle {
-                display: block;
-            }
         }
     </style>
 </head>
@@ -377,20 +374,25 @@
             </ul>
 
             <div class="sidebar-bottom">
-                <!-- Dark Mode Toggle -->
-                <a href="#" onclick="toggleDarkMode(); return false;">
-                    <i class="fas fa-moon"></i> الوضع الليلي
-                </a>
-
                 <!-- Language Switcher -->
-                <a href="#" onclick="changeLanguage('ar'); return false;">
-                    <i class="fas fa-language"></i> العربية
+                <a href="#" onclick="event.preventDefault(); document.getElementById('lang-ar').submit();">
+                    <i class="fas fa-language"></i> اللغة - العربية
                 </a>
-                <a href="#" onclick="changeLanguage('fr'); return false;">
-                    <i class="fas fa-language"></i> Français
+                <form id="lang-ar" action="{{ route('lang.switch', 'ar') }}" method="GET" class="d-none"></form>
+                
+                <a href="#" onclick="event.preventDefault(); document.getElementById('lang-fr').submit();">
+                    <i class="fas fa-language"></i> Langue - Français
                 </a>
-                <a href="#" onclick="changeLanguage('en'); return false;">
-                    <i class="fas fa-language"></i> English
+                <form id="lang-fr" action="{{ route('lang.switch', 'fr') }}" method="GET" class="d-none"></form>
+                
+                <a href="#" onclick="event.preventDefault(); document.getElementById('lang-en').submit();">
+                    <i class="fas fa-language"></i> Language - English
+                </a>
+                <form id="lang-en" action="{{ route('lang.switch', 'en') }}" method="GET" class="d-none"></form>
+
+                <!-- Dark Mode Toggle -->
+                <a href="#" onclick="toggleDarkMode()">
+                    <i class="fas fa-moon"></i> الوضع الليلي
                 </a>
 
                 <!-- Logout -->
@@ -408,7 +410,12 @@
             <div class="main-header">
                 <div class="page-title">
                     <h1>Dashboard</h1>
-                    <p>Welcome , @auth {{ Auth::user()->name }} @endauth 👋</p>
+                    <p>Welcome back, @auth {{ Auth::user()->name }} @endauth 👋</p>
+                </div>
+                <div class="header-actions">
+                    <button class="calendar-toggle" onclick="toggleSidebar()" style="background: none; border: none; font-size: 24px; display: none;">
+                        <i class="fas fa-bars"></i>
+                    </button>
                 </div>
             </div>
 
@@ -483,23 +490,17 @@
             }
         }
         
-        function changeLanguage(locale) {
-            fetch(`/lang/${locale}`, {
-                method: 'GET',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            }).then(() => {
-                window.location.reload();
-            });
-        }
-        
         if (localStorage.getItem('darkMode') === 'enabled') {
             document.body.classList.add('dark-mode');
         }
         
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('open');
+        }
+        
+        // Show mobile menu button on small screens
+        if (window.innerWidth <= 768) {
+            document.querySelector('.calendar-toggle').style.display = 'block';
         }
     </script>
 </body>

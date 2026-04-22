@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Memory Digital') }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Memory Digital</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -23,6 +22,7 @@
             justify-content: center;
         }
 
+        /* Container */
         .login-container {
             display: flex;
             max-width: 1000px;
@@ -35,6 +35,7 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
 
+        /* Left Side - Logo & Brand */
         .brand-side {
             flex: 1;
             background: linear-gradient(135deg, #0f0f1a, #1a1a2e);
@@ -65,7 +66,7 @@
         }
 
         .brand-side h1 {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 700;
             color: white;
             margin-bottom: 15px;
@@ -88,6 +89,7 @@
             border: 1px solid rgba(244,67,54,0.3);
         }
 
+        /* Right Side - Form */
         .form-side {
             flex: 1;
             padding: 60px 50px;
@@ -117,6 +119,11 @@
             font-weight: 600;
         }
 
+        .form-header a:hover {
+            text-decoration: underline;
+        }
+
+        /* Form Group */
         .form-group {
             margin-bottom: 25px;
         }
@@ -162,6 +169,7 @@
             color: #5a6a7a;
         }
 
+        /* Button */
         .btn-login {
             width: 100%;
             padding: 14px;
@@ -180,6 +188,7 @@
             box-shadow: 0 8px 20px rgba(244,67,54,0.4);
         }
 
+        /* Divider */
         .divider {
             text-align: center;
             margin: 25px 0;
@@ -204,6 +213,7 @@
             font-size: 13px;
         }
 
+        /* Social Buttons */
         .social-buttons {
             display: flex;
             gap: 15px;
@@ -232,6 +242,7 @@
             font-size: 18px;
         }
 
+        /* Error Messages */
         .error-message {
             color: #f44336;
             font-size: 12px;
@@ -247,10 +258,12 @@
             margin-bottom: 20px;
         }
 
+        /* Responsive */
         @media (max-width: 768px) {
             .login-container {
                 flex-direction: column;
                 margin: 10px;
+                border-radius: 20px;
             }
             
             .brand-side {
@@ -276,17 +289,12 @@
 </head>
 <body>
     <div class="login-container">
-        <div class="brand-side">
-            <div class="logo-circle">
-                <i class="fas fa-brain"></i>
-            </div>
-            
-        </div>
 
+        <!-- Right Side - Form -->
         <div class="form-side">
             <div class="form-header">
-                <h2>Create Account</h2>
-                <p>Already a member? <a href="{{ route('login') }}">Sign In</a></p>
+                <h2>Welcome Back!</h2>
+                <p>Don't have an account? <a href="{{ route('register') }}">Sign Up</a></p>
             </div>
 
             @if($errors->any())
@@ -297,16 +305,8 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('register') }}">
+            <form action="{{ route('custom.login') }}" method="POST">
                 @csrf
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <div class="input-group">
-                        <i class="fas fa-user"></i>
-                        <input type="text" name="name" class="form-control" placeholder="Enter your full name" value="{{ old('name') }}" required>
-                    </div>
-                </div>
-
                 <div class="form-group">
                     <label>Email Address</label>
                     <div class="input-group">
@@ -319,23 +319,16 @@
                     <label>Password</label>
                     <div class="input-group">
                         <i class="fas fa-lock"></i>
-                        <input type="password" name="password" class="form-control" placeholder="Create a password" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Confirm Password</label>
-                    <div class="input-group">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm your password" required>
+                        <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
                     </div>
                 </div>
 
                 <button type="submit" class="btn-login">
-                    <i class="fas fa-user-plus"></i> Sign Up
+                    <i class="fas fa-sign-in-alt"></i> Sign In
                 </button>
             </form>
 
+            
         </div>
     </div>
 </body>

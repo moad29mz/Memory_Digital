@@ -1,8 +1,6 @@
 <?php
 
 return [
-    // General
-    'app_name' => 'ميموري ديجيتال',
     'dashboard' => 'الرئيسية',
     'my_memories' => 'ذكرياتي',
     'add_memory' => 'إضافة ذكرى',
@@ -12,41 +10,59 @@ return [
     'back' => 'رجوع',
     'search' => 'بحث',
     'dark_mode' => 'الوضع الليلي',
-    
-    // Memory fields
+    'statistics' => 'الإحصائيات',
+    'logout' => 'تسجيل الخروج',
+    'login' => 'تسجيل الدخول',
+    'register' => 'إنشاء حساب',
+    'email' => 'البريد الإلكتروني',
+    'password' => 'كلمة المرور',
+    'name' => 'الاسم',
     'title' => 'العنوان',
     'description' => 'الوصف',
     'emotion' => 'الحالة النفسية',
     'media' => 'المرفق',
-    
-    // Emotions
-    'emotions' => [
-        'happy' => '😊 سعيد',
-        'sad' => '😢 حزين',
-        'excited' => '🤩 متحمس',
-        'nostalgic' => '📜 حنين',
-        'angry' => '😠 غاضب',
-        'calm' => '😌 هادئ',
-        'loved' => '❤️ محبوب',
-    ],
-    
-    // Messages
-    'memory_added' => 'تم إضافة الذكرى بنجاح',
-    'memory_updated' => 'تم تعديل الذكرى بنجاح',
-    'memory_deleted' => 'تم حذف الذكرى بنجاح',
     'no_memories' => 'لا توجد ذكريات بعد. أضف أول ذكرى لك!',
     'confirm_delete' => 'هل أنت متأكد من حذف هذه الذكرى؟',
-    
-    // Search
     'search_by_title' => 'بحث بالعنوان...',
     'search_by_date' => 'بحث بالتاريخ',
     'search_by_emotion' => 'بحث بالحالة النفسية',
-    
-    // Auth
-    'login' => 'تسجيل الدخول',
-    'register' => 'إنشاء حساب',
-    'logout' => 'تسجيل الخروج',
-    'email' => 'البريد الإلكتروني',
-    'password' => 'كلمة المرور',
-    'name' => 'الاسم',
+    'memory_added' => 'تم إضافة الذكرى بنجاح',
+    'memory_updated' => 'تم تعديل الذكرى بنجاح',
+    'memory_deleted' => 'تم حذف الذكرى بنجاح',
+
+        'hero_subtitle' => 'حافظ على ذكرياتك للأبد بطريقة ذكية ومبتكرة',
+    'features_title' => 'لماذا تختار Memory Digital؟',
+    'feature1_title' => 'ميديا متعددة',
+    'feature1_desc' => 'أضف صور، فيديوهات، أغاني مع كل ذكرى',
+    'feature2_title' => 'الحالة النفسية',
+    'feature2_desc' => 'سجل حالتك النفسية مع كل ذكرى',
+    'feature3_title' => 'إحصائيات دقيقة',
+    'feature3_desc' => 'تحليلات ورسوم بيانية لحالتك النفسية',
+    'feature4_title' => 'ثلاث لغات',
+    'feature4_desc' => 'عربية، فرنسية، إنجليزية',
+    'feature5_title' => 'الوضع الليلي',
+    'feature5_desc' => 'مريح للعين في الليل',
+    'feature6_title' => 'بحث متقدم',
+    'feature6_desc' => 'ابحث بالعنوان، التاريخ، أو الحالة النفسية',
+    'emotions_title' => 'سجل مشاعرك',
+    'emotion_happy' => 'سعيد',
+    'emotion_sad' => 'حزين',
+    'emotion_excited' => 'متحمس',
+    'emotion_nostalgic' => 'حنين',
+    'emotion_angry' => 'غاضب',
+    'emotion_calm' => 'هادئ',
+    'emotion_loved' => 'محبوب',
+    'stats_title' => 'إحصائيات ممتعة',
+    'stats_memories' => 'ذكرى محفوظة',
+    'stats_users' => 'مستخدم نشط',
+    'stats_emotions' => 'حالة نفسية',
+    'stats_languages' => 'لغات',
+    'cta_title' => 'ابدأ رحلتك الآن!',
+    'cta_desc' => 'انضم إلى آلاف المستخدمين الذين يحافظون على ذكرياتهم',
+    'create_account' => 'إنشاء حساب مجاني',
+    'footer_desc' => 'حافظ على ذكرياتك للأبد',
+    'footer_links' => 'روابط سريعة',
+    'footer_contact' => 'تواصل معنا',
+    'home' => 'الرئيسية',
+    'copyright' => 'جميع الحقوق محفوظة',
 ];
