@@ -3,8 +3,6 @@
 use App\Http\Controllers\MemoryController;
 use App\Http\Controllers\AuthController;
 use App\Exports\MemoriesExport;
-use Maatwebsite\Excel\Facades\Excel;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Memory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;

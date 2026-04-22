@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,6 @@
             min-height: 100vh;
         }
 
-        /* App Container */
         .app-container {
             display: flex;
             min-height: 100vh;
@@ -58,7 +57,6 @@
             background-clip: text;
         }
 
-        /* Sidebar Menu */
         .sidebar-menu {
             list-style: none;
             padding: 0;
@@ -97,14 +95,13 @@
             font-size: 18px;
         }
 
-        /* Sidebar Bottom */
         .sidebar-bottom {
             margin-top: 50px;
             border-top: 1px solid #e8edf2;
             padding-top: 20px;
         }
 
-        .sidebar-bottom a {
+        .sidebar-bottom .menu-item {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -114,17 +111,58 @@
             text-decoration: none;
             transition: all 0.2s;
             font-weight: 500;
-            margin-bottom: 5px;
             cursor: pointer;
+            width: 100%;
+            background: none;
+            border: none;
+            text-align: left;
         }
 
-        .sidebar-bottom a:hover {
+        .sidebar-bottom .menu-item:hover {
+            background: #f0f2f5;
+            color: #2e7d32;
+        }
+
+        .language-dropdown {
+            margin-left: 30px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        .language-dropdown.show {
+            display: block;
+        }
+
+        .language-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 18px;
+            border-radius: 10px;
+            color: #5a6a7a;
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .language-dropdown a:hover {
             background: #f0f2f5;
             color: #2e7d32;
         }
 
         .sidebar-bottom .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            border-radius: 12px;
             color: #f44336;
+            text-decoration: none;
+            transition: all 0.2s;
+            font-weight: 500;
+            margin-top: 10px;
+            cursor: pointer;
         }
 
         .sidebar-bottom .logout-btn:hover {
@@ -139,24 +177,26 @@
             padding: 30px 40px;
         }
 
-        /* Header */
-        .main-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
+        /* Welcome Section - Centered Large Text */
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 50px;
+            margin-top: 20px;
         }
 
-        .page-title h1 {
-            font-size: 28px;
+        .welcome-section h1 {
+            font-size: 48px;
             font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 5px;
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
         }
 
-        .page-title p {
-            color: #666;
-            font-size: 14px;
+        .welcome-section p {
+            color: #8e9aaf;
+            font-size: 18px;
         }
 
         /* Stats Cards */
@@ -282,25 +322,26 @@
             color: white;
         }
 
-        .dark-mode .sidebar-bottom {
-            border-top-color: #2e7d32;
-        }
-
-        .dark-mode .sidebar-bottom a {
+        .dark-mode .sidebar-bottom .menu-item {
             color: #aaa;
         }
 
-        .dark-mode .sidebar-bottom a:hover {
+        .dark-mode .sidebar-bottom .menu-item:hover {
+            background: #1f2a4a;
+            color: #4caf50;
+        }
+
+        .dark-mode .language-dropdown a {
+            color: #aaa;
+        }
+
+        .dark-mode .language-dropdown a:hover {
             background: #1f2a4a;
             color: #4caf50;
         }
 
         .dark-mode .main-content {
             background: #1a1a2e;
-        }
-
-        .dark-mode .page-title h1 {
-            color: white;
         }
 
         .dark-mode .stat-card {
@@ -348,8 +389,8 @@
                 grid-template-columns: 1fr;
             }
             
-            .menu-toggle {
-                display: block;
+            .welcome-section h1 {
+                font-size: 32px;
             }
         }
     </style>
@@ -364,38 +405,43 @@
             </div>
 
             <ul class="sidebar-menu">
-                <li class="active">
-                    <a href="{{ route('dashboard') }}">
-                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                <li>
+                    <a href="{{ route('memories.index') }}">
+                        <i class="fas fa-book"></i> My Memories
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('memories.index') }}">
-                        <i class="fas fa-book"></i> ذكرياتي
+                    <a href="{{ route('statistics') }}">
+                        <i class="fas fa-chart-line"></i> Statistics
                     </a>
                 </li>
             </ul>
 
             <div class="sidebar-bottom">
-                <!-- Dark Mode Toggle -->
-                <a href="#" onclick="toggleDarkMode(); return false;">
-                    <i class="fas fa-moon"></i> الوضع الليلي
-                </a>
+                <!-- Language Button with Dropdown -->
+                <button class="menu-item" onclick="toggleLanguageDropdown()">
+                    <i class="fas fa-globe"></i> Language
+                </button>
+                <div class="language-dropdown" id="languageDropdown">
+                    <a href="#" onclick="changeLanguage('en'); return false;">
+                        <i class="fas fa-flag-usa"></i> English
+                    </a>
+                    <a href="#" onclick="changeLanguage('ar'); return false;">
+                        <i class="fas fa-flag"></i> العربية
+                    </a>
+                    <a href="#" onclick="changeLanguage('fr'); return false;">
+                        <i class="fas fa-flag"></i> Français
+                    </a>
+                </div>
 
-                <!-- Language Switcher -->
-                <a href="#" onclick="changeLanguage('ar'); return false;">
-                    <i class="fas fa-language"></i> العربية
-                </a>
-                <a href="#" onclick="changeLanguage('fr'); return false;">
-                    <i class="fas fa-language"></i> Français
-                </a>
-                <a href="#" onclick="changeLanguage('en'); return false;">
-                    <i class="fas fa-language"></i> English
-                </a>
+                <!-- Dark Mode Toggle -->
+                <button class="menu-item" onclick="toggleDarkMode()">
+                    <i class="fas fa-moon"></i> Dark Mode
+                </button>
 
                 <!-- Logout -->
                 <a href="#" class="logout-btn" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+                    <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
@@ -405,11 +451,10 @@
 
         <!-- Main Content -->
         <div class="main-content">
-            <div class="main-header">
-                <div class="page-title">
-                    <h1>Dashboard</h1>
-                    <p>Welcome , @auth {{ Auth::user()->name }} @endauth 👋</p>
-                </div>
+            <!-- Welcome Section - Centered Large Text -->
+            <div class="welcome-section">
+                <h1>Welcome @auth {{ Auth::user()->name }} @endauth</h1>
+                
             </div>
 
             <!-- Stats Cards -->
@@ -483,6 +528,11 @@
             }
         }
         
+        function toggleLanguageDropdown() {
+            const dropdown = document.getElementById('languageDropdown');
+            dropdown.classList.toggle('show');
+        }
+        
         function changeLanguage(locale) {
             fetch(`/lang/${locale}`, {
                 method: 'GET',
@@ -494,13 +544,23 @@
             });
         }
         
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+        
+        // Check saved dark mode
         if (localStorage.getItem('darkMode') === 'enabled') {
             document.body.classList.add('dark-mode');
         }
         
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-        }
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('languageDropdown');
+            const btn = document.querySelector('.menu-item');
+            if (btn && !btn.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
     </script>
 </body>
 </html>
