@@ -293,7 +293,7 @@
         <!-- Right Side - Form -->
         <div class="form-side">
             <div class="form-header">
-                <h2>Welcome Back!</h2>
+                <h2>Welcome </h2>
                 <p>Don't have an account? <a href="{{ route('register') }}">Sign Up</a></p>
             </div>
 
